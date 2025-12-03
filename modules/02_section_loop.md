@@ -19,6 +19,16 @@ Iterate over normalized sections and generate per-section summaries. Defer to Gu
 - section_summaries
 - updated_shared_state
 
+## Logic
+1. Iterate sections.
+2. If missing/short → Guardrails.
+3. Extract key content.
+4. Normalize terminology.
+5. Compose ≤150-word summary.
+6. Update shared_state.
+7. Finalize entry.
+8. Return outputs.
+
 Section Loop Logic:
 
 1. For each section in normalized_sections (in the order given by `section_order`):
