@@ -1,0 +1,64 @@
+Module name
+01_intake_and_setup
+
+Purpose
+Validate inputs, normalize section labels, compute section word counts, and mark sections as normal, missing, or very short. Initialize shared structures for terminology and key contributions.
+
+Inputs
+paper_sections: Map from section label to text.
+
+section_order: Ordered list of section labels.
+
+target_audience: Audience type (expert, student, general).
+
+Outputs
+normalized_sections: Ordered list of section records: {label_canonical, original_label, text, word_count, status}.
+
+warnings_initial: List of early input issues (missing sections, empty text).
+
+shared_state: Initialized structures:
+
+terminology_map (canonical term/acronym → definition, variants)
+
+contributions_list (empty to start)
+
+section_summaries (empty, to be filled later)
+
+Step-by-step logic
+Validate required inputs
+
+Confirm paper_sections, section_order, and target_audience exist and are non-empty.
+
+If missing, stop and request the missing items.
+
+Normalize labels
+
+Trim whitespace; standardize case (e.g., Title Case).
+
+Map common aliases to canonical forms (e.g., “Background” → “Introduction”; “Methodology” → “Methods”), without altering meaning.
+
+Assemble sections
+
+For each label in section_order:
+
+Retrieve text from paper_sections; if absent, mark status = “missing”.
+
+Compute word_count (token or word estimate).
+
+If word_count == 0 → status = “empty”; if word_count < threshold (e.g., <75 words) → status = “very short”; else → status = “normal”.
+
+Record warnings
+
+Add entries for missing, empty, and very short sections.
+
+Initialize shared_state
+
+Create terminology_map with empty entries.
+
+Create contributions_list as empty.
+
+Create section_summaries as empty list aligned to normalized_sections.
+
+Return
+
+Output normalized_sections, warnings_initial, shared_state.
